@@ -34,6 +34,7 @@ from ..cache_utils import (
     EncoderDecoderCache,
     HybridChunkedCache,
     OffloadedCache,
+    PikiwidbCache,
     OffloadedHybridCache,
     QuantizedCacheConfig,
 )
@@ -2083,6 +2084,8 @@ class GenerationMixin(ContinuousMixin):
                 model_kwargs[cache_name] = cache_class(cache_config)
             elif generation_config.cache_implementation == "offloaded":
                 model_kwargs[cache_name] = OffloadedCache()
+            elif generation_config.cache_implementation == "pikiwidb":
+                model_kwargs[cache_name] = PikiwidbCache()
             elif generation_config.cache_implementation == "dynamic":
                 model_kwargs[cache_name] = DynamicCache()
 

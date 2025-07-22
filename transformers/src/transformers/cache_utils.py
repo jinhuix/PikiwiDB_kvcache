@@ -14,6 +14,9 @@ from transformers.pytorch_utils import is_torch_greater_or_equal_than_2_6
 from .configuration_utils import PretrainedConfig
 from .utils import is_hqq_available, is_optimum_quanto_available, is_torch_greater_or_equal, logging
 
+import redis
+import pickle
+import io
 
 if is_hqq_available():
     from hqq.core.quantize import Quantizer as HQQQuantizer
@@ -816,6 +819,282 @@ class OffloadedCache(DynamicCache):
     # if a method is not supposed to be supported in a subclass we should set it to None
     from_legacy_cache = None
 
+    to_legacy_cache = None
+
+
+class PikiwidbCache(DynamicCache):
+    """
+    A drop-in replacement for DynamicCache that offloads KV cache to a PikiwiDB instance.
+    This allows for much larger cache capacity and cross-process cache sharing.
+    
+    Args:
+        host (str): PikiwiDB server host address. Defaults to "localhost".
+        port (int): PikiwiDB server port. Defaults to 9221.
+    
+    Example:
+        ```python
+        >>> from transformers import AutoTokenizer, AutoModelForCausalLM, PikiwidbCache
+
+        >>> model = AutoModelForCausalLM.from_pretrained("microsoft/Phi-3-mini-4k-instruct")
+        >>> tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-4k-instruct")
+
+        >>> inputs = tokenizer("Fun fact: The shortest", return_tensors="pt").to(model.device)
+
+        >>> # Use PikiwidbCache for generation
+        >>> cache = PikiwidbCache(host="localhost", port=9221)
+        >>> outputs = model.generate(**inputs, past_key_values=cache, max_new_tokens=20)
+        ```
+    """
+
+    def __init__(
+        self, 
+        host: str = "localhost",
+        port: int = 9221,
+        prefix: str = "cache",
+    ) -> None:
+        if not (
+            torch.cuda.is_available()
+            or (is_torch_greater_or_equal("2.7", accept_dev=True) and torch.xpu.is_available())
+        ):
+            raise RuntimeError(
+                "OffloadedCache can only be used with a GPU"
+                + (" or XPU" if is_torch_greater_or_equal("2.7", accept_dev=True) else "")
+            )
+
+        super().__init__()
+        self.original_device = []
+        self.prefetch_stream = None
+        self.prefetch_stream = (
+            torch.Stream() if is_torch_greater_or_equal("2.7", accept_dev=True) else torch.cuda.Stream()
+        )
+        
+        # Initialize Redis client for PikiwiDB
+        self.host = host
+        self.port = port
+        self.prefix = prefix
+        self.client = redis.Redis(
+            host=host, 
+            port=port, 
+            decode_responses=False
+        )
+        try:
+            self.client.ping()
+        except Exception as e:
+            raise ConnectionError(f"Failed to connect to PikiwiDB at {host}:{port}: {e}")
+
+    def _make_key(self, layer_idx: int, cache_type: str) -> str:
+        """Generate a unique key for the cache entry."""
+        return f"{self.prefix}:{layer_idx}:{cache_type}" # cache_type: key or value
+
+    def _serialize_tensor(self, tensor: torch.Tensor) -> bytes:
+        """直接在GPU上序列化tensor"""
+        # 使用PyTorch原生序列化方法
+        buffer = io.BytesIO()
+        torch.save(tensor, buffer)
+        return buffer.getvalue()
+
+    def _deserialize_tensor(self, data: bytes) -> torch.Tensor:
+        """直接从字节流反序列化到GPU"""
+        buffer = io.BytesIO(data)
+        # 获取当前CUDA设备
+        current_device = torch.cuda.current_device()
+        return torch.load(buffer, map_location=f"cuda:{current_device}")
+
+    def _store_layer_cache(self, layer_idx: int, key_states: torch.Tensor, value_states: torch.Tensor):
+        """将KV cache直接存储到PikiwiDB"""
+        try:
+            # 异步序列化
+            with torch.cuda.stream(torch.cuda.Stream()):
+                key_data = self._serialize_tensor(key_states)
+                value_data = self._serialize_tensor(value_states)
+            
+            # 生成Redis keys
+            key_cache_key = self._make_key(layer_idx, "key")
+            value_cache_key = self._make_key(layer_idx, "value")
+            
+            # 使用pipeline进行原子操作
+            pipe = self.client.pipeline()
+            pipe.set(key_cache_key, key_data)
+            pipe.set(value_cache_key, value_data)
+            pipe.execute()
+            
+            # 记录调试信息
+            import logging
+            logging.debug(f"PikiwidbCache: 存储层{layer_idx}到PikiwiDB, key: {key_cache_key}, value: {value_cache_key}, 数据大小: {len(key_data)}/{len(value_data)} bytes")
+            
+            # 立即释放GPU内存
+            del key_states, value_states
+            torch.cuda.empty_cache()
+            
+        except Exception as e:
+            import warnings
+            warnings.warn(f"存储到PikiwiDB失败: {e}")
+
+    def _load_layer_cache(self, layer_idx: int) -> tuple[torch.Tensor, torch.Tensor]:
+        """从PikiwiDB加载KV cache到GPU"""
+        try:
+            key_cache_key = self._make_key(layer_idx, "key")
+            value_cache_key = self._make_key(layer_idx, "value")
+            
+            # 使用pipeline进行高效检索
+            pipe = self.client.pipeline()
+            pipe.get(key_cache_key)
+            pipe.get(value_cache_key)
+            key_data, value_data = pipe.execute()
+            
+            if key_data is None or value_data is None:
+                raise ValueError(f"层{layer_idx}缓存缺失")
+            
+            # 异步反序列化
+            with torch.cuda.stream(torch.cuda.Stream()):
+                key_tensor = self._deserialize_tensor(key_data)
+                value_tensor = self._deserialize_tensor(value_data)
+            
+            # 记录调试信息
+            import logging
+            logging.debug(f"PikiwidbCache: 从PikiwiDB加载层{layer_idx}, key: {key_cache_key}, value: {value_cache_key}, 数据大小: {len(key_data)}/{len(value_data)} bytes")
+            
+            return key_tensor, value_tensor
+            
+        except Exception as e:
+            raise ValueError(f"从PikiwiDB加载失败: {e}")
+
+    def prefetch_layer(self, layer_idx: int):
+        """从PikiwiDB预取下一层缓存到GPU"""
+        if layer_idx < len(self):
+            # 使用独立CUDA流异步预取
+            with torch.cuda.stream(self.prefetch_stream):
+                try:
+                    # 检查该层是否已经在内存中
+                    if (layer_idx < len(self.key_cache) and self.key_cache[layer_idx].numel() > 0):
+                        # 层已在内存中，无需预取
+                        return
+                    
+                    # 从PikiwiDB加载
+                    key_tensor, value_tensor = self._load_layer_cache(layer_idx)
+                    self.key_cache[layer_idx] = key_tensor
+                    self.value_cache[layer_idx] = value_tensor
+                    
+                except Exception as e:
+                    import warnings
+                    warnings.warn(f"预取层{layer_idx}失败: {e}")
+
+    def evict_previous_layer(self, layer_idx: int):
+        """将前一层缓存从GPU移动到PikiwiDB"""
+        if len(self) > 1:  # 至少需要2层
+            prev_layer_idx = (layer_idx - 1) % len(self)
+            
+            if (prev_layer_idx < len(self.key_cache) and self.key_cache[prev_layer_idx].numel() > 0):
+                
+                try:
+                    # 记录调试信息
+                    import logging
+                    logging.debug(f"PikiwidbCache: 移出层{prev_layer_idx}到PikiwiDB, 当前层: {layer_idx}")
+                    
+                    # 存储到PikiwiDB
+                    self._store_layer_cache(
+                        prev_layer_idx, 
+                        self.key_cache[prev_layer_idx], 
+                        self.value_cache[prev_layer_idx]
+                    )
+                    
+                    # 释放GPU内存
+                    self.key_cache[prev_layer_idx] = torch.empty(0, device="cuda")
+                    self.value_cache[prev_layer_idx] = torch.empty(0, device="cuda")
+                    
+                except Exception as e:
+                    import warnings
+                    warnings.warn(f"移出层{prev_layer_idx}失败: {e}")
+
+    def __getitem__(self, layer_idx: int) -> tuple[torch.Tensor, torch.Tensor]:
+        """获取指定层缓存，必要时从PikiwiDB加载"""
+        if layer_idx < len(self):
+            # 同步当前流
+            torch.cuda.current_stream().synchronize()
+            
+            # 移出前一层
+            self.evict_previous_layer(layer_idx)
+            
+            # 如果当前层不在内存中，从PikiwiDB加载
+            if (layer_idx >= len(self.key_cache) or 
+                self.key_cache[layer_idx].numel() == 0):
+                
+                try:
+                    key_tensor, value_tensor = self._load_layer_cache(layer_idx)
+                    # 确保有足够空间存储
+                    while len(self.key_cache) <= layer_idx:
+                        self.key_cache.append(torch.empty(0, device="cuda"))
+                        self.value_cache.append(torch.empty(0, device="cuda"))
+                    self.key_cache[layer_idx] = key_tensor
+                    self.value_cache[layer_idx] = value_tensor
+                except Exception as e:
+                    raise KeyError(f"无法加载层{layer_idx}: {e}")
+            
+            # 预取下一层（只在有下一层时）
+            next_layer = (layer_idx + 1) % len(self)
+            if next_layer != layer_idx:  # 避免预取当前层
+                self.prefetch_layer(next_layer)
+            
+            return self.key_cache[layer_idx], self.value_cache[layer_idx]
+        else:
+            raise KeyError(f"Cache only has {len(self)} layers, attempted to access layer with index {layer_idx}")
+    
+    def update(
+        self,
+        key_states: torch.Tensor,
+        value_states: torch.Tensor,
+        layer_idx: int,
+        cache_kwargs: Optional[dict[str, Any]] = None,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """
+        Updates the cache with the new `key_states` and `value_states` for the layer `layer_idx`.
+        
+        Parameters:
+            key_states (`torch.Tensor`):
+                The new key states to cache.
+            value_states (`torch.Tensor`):
+                The new value states to cache.
+            layer_idx (`int`):
+                The index of the layer to cache the states for.
+            cache_kwargs (`dict[str, Any]`, `optional`):
+                Additional arguments for the cache subclass. No additional arguments are used in `PikiwidbCache`.
+        
+        Return:
+            A tuple containing the updated key and value states.
+        """
+        # Update the cache
+        if len(self.key_cache) < layer_idx:
+            raise ValueError("PikiwidbCache does not support model usage where layers are skipped. Use DynamicCache.")
+        elif len(self.key_cache) == layer_idx:
+            self.key_cache.append(key_states)
+            self.value_cache.append(value_states)
+            self.original_device.append(key_states.device)
+            self.evict_previous_layer(layer_idx)
+        else:
+            # 现有层：与之前的states连接
+            # 先获取当前层的缓存
+            if (layer_idx < len(self.key_cache) and 
+                self.key_cache[layer_idx].numel() > 0):
+                # 层在内存中，直接连接
+                self.key_cache[layer_idx] = torch.cat([self.key_cache[layer_idx], key_states], dim=-2)
+                self.value_cache[layer_idx] = torch.cat([self.value_cache[layer_idx], value_states], dim=-2)
+            else:
+                # 层不在内存中，从PikiwiDB加载后连接
+                try:
+                    existing_key, existing_value = self._load_layer_cache(layer_idx)
+                    new_key = torch.cat([existing_key, key_states], dim=-2)
+                    new_value = torch.cat([existing_value, value_states], dim=-2)
+                                        
+                    self.key_cache[layer_idx] = new_key
+                    self.value_cache[layer_idx] = new_value
+                except Exception as e:
+                    raise ValueError(f"Failed to load layer {layer_idx}: {e}")
+        
+        return self.key_cache[layer_idx], self.value_cache[layer_idx]
+       
+    # According to https://docs.python.org/3/library/exceptions.html#NotImplementedError
+    # if a method is not supposed to be supported in a subclass we should set it to None
+    from_legacy_cache = None
     to_legacy_cache = None
 
 
