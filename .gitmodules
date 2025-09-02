@@ -1,7 +1,7 @@
-[submodule "vllm"]
-	path = vllm
-	url = https://github.com/jinhuix/vllm.git
 [submodule "pikiwidb"]
 	path = pikiwidb
 	url = https://github.com/jinhuix/pikiwidb.git
 	branch = 3.5
+[submodule "vllm"]
+	path = vllm
+	url = https://github.com/jinhuix/vllm.git
