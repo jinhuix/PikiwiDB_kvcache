@@ -1,0 +1,265 @@
+INFO 09-05 13:45:13 [__init__.py:241] Automatically detected platform cuda.
+[INIT] Cleared old keys: 0
+INFO 09-05 13:45:16 [utils.py:326] non-default args: {'model': 'facebook/opt-125m', 'trust_remote_code': True, 'max_model_len': 512, 'enable_prefix_caching': True, 'gpu_memory_utilization': 0.85, 'disable_log_stats': True, 'kv_transfer_config': KVTransferConfig(kv_connector='PikaConnector', engine_id='kvtest-opt125m-nhd-fp16', kv_buffer_device='cuda', kv_buffer_size=1000000000.0, kv_role='kv_both', kv_rank=None, kv_parallel_size=1, kv_ip='127.0.0.1', kv_port=14579, kv_connector_extra_config={'host': 'localhost', 'port': 9221, 'db': 0}, kv_connector_module_path=None)}
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 09-05 13:45:25 [__init__.py:711] Resolved architecture: OPTForCausalLM
+`torch_dtype` is deprecated! Use `dtype` instead!
+INFO 09-05 13:45:25 [__init__.py:1750] Using max model len 512
+INFO 09-05 13:45:26 [scheduler.py:222] Chunked prefill is enabled with max_num_batched_tokens=8192.
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:28 [core.py:636] Waiting for init message from front-end.
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:28 [core.py:74] Initializing a V1 LLM engine (v0.10.1) with config: model='facebook/opt-125m', speculative_config=None, tokenizer='facebook/opt-125m', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config={}, tokenizer_revision=None, trust_remote_code=True, dtype=torch.float16, max_seq_len=512, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=0, served_model_name=facebook/opt-125m, enable_prefix_caching=True, chunked_prefill_enabled=True, use_async_output_proc=True, pooler_config=None, compilation_config={"level":3,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output","vllm.mamba_mixer2"],"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":1,"use_cudagraph":true,"cudagraph_num_of_warmups":1,"cudagraph_capture_sizes":[512,504,496,488,480,472,464,456,448,440,432,424,416,408,400,392,384,376,368,360,352,344,336,328,320,312,304,296,288,280,272,264,256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":512,"local_cache_dir":null}
+[rank0]:[W905 13:45:31.637649486 ProcessGroupGloo.cpp:727] Warning: Unable to resolve hostname to a (local) address. Using the loopback address as fallback. Manually set the network interface to bind to with GLOO_SOCKET_IFNAME. (function operator())
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:31 [parallel_state.py:1134] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:31 [factory.py:50] Creating v1 connector with name: PikaConnector and engine_id: kvtest-opt125m-nhd-fp16
+[1;36m(EngineCore_0 pid=825779)[0;0m WARNING 09-05 13:45:31 [base.py:80] Initializing KVConnectorBase_V1. This API is experimental and subject to change in the future as we iterate the design.
+[1;36m(EngineCore_0 pid=825779)[0;0m WARNING 09-05 13:45:31 [topk_topp_sampler.py:61] FlashInfer is not available. Falling back to the PyTorch-native implementation of top-p & top-k sampling. For the best performance, please install FlashInfer.
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:31 [gpu_model_runner.py:1953] Starting to load model facebook/opt-125m...
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:31 [gpu_model_runner.py:1985] Loading model from scratch...
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:31 [cuda.py:328] Using Flash Attention backend on V1 engine.
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:32 [weight_utils.py:296] Using model weights format ['*.bin']
+[1;36m(EngineCore_0 pid=825779)[0;0m Loading pt checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+[1;36m(EngineCore_0 pid=825779)[0;0m Loading pt checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.87it/s]
+[1;36m(EngineCore_0 pid=825779)[0;0m Loading pt checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.87it/s]
+[1;36m(EngineCore_0 pid=825779)[0;0m 
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:33 [default_loader.py:262] Loading weights took 0.54 seconds
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:34 [gpu_model_runner.py:2007] Model loading took 0.2389 GiB and 1.703065 seconds
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:37 [backends.py:548] Using cache directory: /home/xjh/.cache/vllm/torch_compile_cache/7dfb9d834a/rank_0_0/backbone for vLLM's torch.compile
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:37 [backends.py:559] Dynamo bytecode transform time: 2.79 s
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:38 [backends.py:161] Directly load the compiled graph(s) for dynamic shape from the cache, took 1.272 s
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:39 [monitor.py:34] torch.compile takes 2.79 s in total
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:39 [gpu_worker.py:276] Available KV cache memory: 19.29 GiB
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:40 [kv_cache_utils.py:849] GPU KV cache size: 561,872 tokens
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:40 [kv_cache_utils.py:853] Maximum concurrency for 512 tokens per request: 1097.41x
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:40 [utils.py:114] Connectors do not specify a kv cache layout, defaulting to NHD.
+[1;36m(EngineCore_0 pid=825779)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/67 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  10%|█         | 7/67 [00:00<00:00, 63.49it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  22%|██▏       | 15/67 [00:00<00:00, 67.47it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  34%|███▍      | 23/67 [00:00<00:00, 70.71it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  46%|████▋     | 31/67 [00:00<00:00, 72.52it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  58%|█████▊    | 39/67 [00:00<00:00, 73.01it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  70%|███████   | 47/67 [00:00<00:00, 72.96it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 55/67 [00:00<00:00, 71.45it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  94%|█████████▍| 63/67 [00:00<00:00, 71.07it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 67/67 [00:00<00:00, 69.62it/s]
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:41 [gpu_model_runner.py:2708] Graph capturing finished in 1 secs, took 0.19 GiB
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:41 [core.py:214] init engine (profile, create kv cache, warmup model) took 7.18 seconds
+[1;36m(EngineCore_0 pid=825779)[0;0m INFO 09-05 13:45:42 [factory.py:50] Creating v1 connector with name: PikaConnector and engine_id: kvtest-opt125m-nhd-fp16
+[1;36m(EngineCore_0 pid=825779)[0;0m WARNING 09-05 13:45:42 [base.py:80] Initializing KVConnectorBase_V1. This API is experimental and subject to change in the future as we iterate the design.
+INFO 09-05 13:45:42 [llm.py:298] Supported_tasks: ['generate']
+Adding requests:   0%|          | 0/4 [00:00<?, ?it/s]Adding requests: 100%|██████████| 4/4 [00:00<00:00, 334.05it/s]
+Processed prompts:   0%|          | 0/4 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][1;36m(EngineCore_0 pid=825779)[0;0m 
+[1;36m(EngineCore_0 pid=825779)[0;0m 🔄 [LOAD] Request 0 Layer 0: Loading 18 blocks
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=1, hash=-396566077824901..., keys=kvblock:facebook/opt-125m:0:-3965660778249019479:0, kvblock:facebook/opt-125m:0:-3965660778249019479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=2, hash=-623393211362326..., keys=kvblock:facebook/opt-125m:0:-6233932113623267409:0, kvblock:facebook/opt-125m:0:-6233932113623267409:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=3, hash=3832619819401557..., keys=kvblock:facebook/opt-125m:0:3832619819401557149:0, kvblock:facebook/opt-125m:0:3832619819401557149:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=4, hash=8950959619725232..., keys=kvblock:facebook/opt-125m:0:8950959619725232054:0, kvblock:facebook/opt-125m:0:8950959619725232054:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=5, hash=-647440334344014..., keys=kvblock:facebook/opt-125m:0:-6474403343440146391:0, kvblock:facebook/opt-125m:0:-6474403343440146391:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=6, hash=-149814643624115..., keys=kvblock:facebook/opt-125m:0:-1498146436241157827:0, kvblock:facebook/opt-125m:0:-1498146436241157827:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=7, hash=1834146165035616..., keys=kvblock:facebook/opt-125m:0:183414616503561639:0, kvblock:facebook/opt-125m:0:183414616503561639:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=8, hash=-796771723346456..., keys=kvblock:facebook/opt-125m:0:-796771723346456411:0, kvblock:facebook/opt-125m:0:-796771723346456411:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=9, hash=-728934411703425..., keys=kvblock:facebook/opt-125m:0:-7289344117034257096:0, kvblock:facebook/opt-125m:0:-7289344117034257096:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=10, hash=2642929893733738..., keys=kvblock:facebook/opt-125m:0:2642929893733738997:0, kvblock:facebook/opt-125m:0:2642929893733738997:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=11, hash=-143315839541634..., keys=kvblock:facebook/opt-125m:0:-1433158395416345738:0, kvblock:facebook/opt-125m:0:-1433158395416345738:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=12, hash=-969535662868328..., keys=kvblock:facebook/opt-125m:0:-969535662868328822:0, kvblock:facebook/opt-125m:0:-969535662868328822:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=13, hash=5306566418561000..., keys=kvblock:facebook/opt-125m:0:5306566418561000162:0, kvblock:facebook/opt-125m:0:5306566418561000162:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=14, hash=-320276162304712..., keys=kvblock:facebook/opt-125m:0:-3202761623047128999:0, kvblock:facebook/opt-125m:0:-3202761623047128999:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=15, hash=-321029243498631..., keys=kvblock:facebook/opt-125m:0:-3210292434986317386:0, kvblock:facebook/opt-125m:0:-3210292434986317386:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=16, hash=-861678196613307..., keys=kvblock:facebook/opt-125m:0:-8616781966133073479:0, kvblock:facebook/opt-125m:0:-8616781966133073479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=17, hash=8306231627662294..., keys=kvblock:facebook/opt-125m:0:8306231627662294931:0, kvblock:facebook/opt-125m:0:8306231627662294931:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=18, hash=-843568115929644..., keys=kvblock:facebook/opt-125m:0:-8435681159296446662:0, kvblock:facebook/opt-125m:0:-8435681159296446662:1
+[1;36m(EngineCore_0 pid=825779)[0;0m 📊 [LOAD] Layer 0: Loaded 0/18 blocks, 18 missing
+[1;36m(EngineCore_0 pid=825779)[0;0m 
+[1;36m(EngineCore_0 pid=825779)[0;0m 🔄 [LOAD] Request 1 Layer 0: Loading 18 blocks
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=1, hash=-396566077824901..., keys=kvblock:facebook/opt-125m:0:-3965660778249019479:0, kvblock:facebook/opt-125m:0:-3965660778249019479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=2, hash=-623393211362326..., keys=kvblock:facebook/opt-125m:0:-6233932113623267409:0, kvblock:facebook/opt-125m:0:-6233932113623267409:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=3, hash=3832619819401557..., keys=kvblock:facebook/opt-125m:0:3832619819401557149:0, kvblock:facebook/opt-125m:0:3832619819401557149:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=4, hash=8950959619725232..., keys=kvblock:facebook/opt-125m:0:8950959619725232054:0, kvblock:facebook/opt-125m:0:8950959619725232054:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=5, hash=-647440334344014..., keys=kvblock:facebook/opt-125m:0:-6474403343440146391:0, kvblock:facebook/opt-125m:0:-6474403343440146391:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=6, hash=-149814643624115..., keys=kvblock:facebook/opt-125m:0:-1498146436241157827:0, kvblock:facebook/opt-125m:0:-1498146436241157827:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=7, hash=1834146165035616..., keys=kvblock:facebook/opt-125m:0:183414616503561639:0, kvblock:facebook/opt-125m:0:183414616503561639:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=8, hash=-796771723346456..., keys=kvblock:facebook/opt-125m:0:-796771723346456411:0, kvblock:facebook/opt-125m:0:-796771723346456411:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=9, hash=-728934411703425..., keys=kvblock:facebook/opt-125m:0:-7289344117034257096:0, kvblock:facebook/opt-125m:0:-7289344117034257096:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=10, hash=2642929893733738..., keys=kvblock:facebook/opt-125m:0:2642929893733738997:0, kvblock:facebook/opt-125m:0:2642929893733738997:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=11, hash=-143315839541634..., keys=kvblock:facebook/opt-125m:0:-1433158395416345738:0, kvblock:facebook/opt-125m:0:-1433158395416345738:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=12, hash=-969535662868328..., keys=kvblock:facebook/opt-125m:0:-969535662868328822:0, kvblock:facebook/opt-125m:0:-969535662868328822:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=13, hash=5306566418561000..., keys=kvblock:facebook/opt-125m:0:5306566418561000162:0, kvblock:facebook/opt-125m:0:5306566418561000162:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=14, hash=-320276162304712..., keys=kvblock:facebook/opt-125m:0:-3202761623047128999:0, kvblock:facebook/opt-125m:0:-3202761623047128999:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=15, hash=-321029243498631..., keys=kvblock:facebook/opt-125m:0:-3210292434986317386:0, kvblock:facebook/opt-125m:0:-3210292434986317386:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=16, hash=-861678196613307..., keys=kvblock:facebook/opt-125m:0:-8616781966133073479:0, kvblock:facebook/opt-125m:0:-8616781966133073479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=17, hash=8306231627662294..., keys=kvblock:facebook/opt-125m:0:8306231627662294931:0, kvblock:facebook/opt-125m:0:8306231627662294931:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=20, hash=-422140112001690..., keys=kvblock:facebook/opt-125m:0:-4221401120016909876:0, kvblock:facebook/opt-125m:0:-4221401120016909876:1
+[1;36m(EngineCore_0 pid=825779)[0;0m 📊 [LOAD] Layer 0: Loaded 0/18 blocks, 18 missing
+[1;36m(EngineCore_0 pid=825779)[0;0m 
+[1;36m(EngineCore_0 pid=825779)[0;0m 🔄 [LOAD] Request 2 Layer 0: Loading 18 blocks
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=1, hash=-396566077824901..., keys=kvblock:facebook/opt-125m:0:-3965660778249019479:0, kvblock:facebook/opt-125m:0:-3965660778249019479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=2, hash=-623393211362326..., keys=kvblock:facebook/opt-125m:0:-6233932113623267409:0, kvblock:facebook/opt-125m:0:-6233932113623267409:1
+[1;36m(EngineCore_0 pid=825779)[0;0m Processed prompts:  25%|██▌       | 1/4 [00:00<00:01,  1.93it/s, est. speed input: 554.85 toks/s, output: 53.94 toks/s]  ❌ MISSING block_id=3, hash=3832619819401557..., keys=kvblock:facebook/opt-125m:0:3832619819401557149:0, kvblock:facebook/opt-125m:0:3832619819401557149:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=4, hash=8950959619725232..., keys=kvblock:facebook/opt-125m:0:8950959619725232054:0, kvblock:facebook/opt-125m:0:8950959619725232054:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=5, hash=-647440334344014..., keys=kvblock:facebook/opt-125m:0:-6474403343440146391:0, kvblock:facebook/opt-125m:0:-6474403343440146391:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=6, hash=-149814643624115..., keys=kvblock:facebook/opt-125m:0:-1498146436241157827:0, kvblock:facebook/opt-125m:0:-1498146436241157827:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=7, hash=1834146165035616..., keys=kvblock:facebook/opt-125m:0:183414616503561639:0, kvblock:facebook/opt-125m:0:183414616503561639:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=8, hash=-796771723346456..., keys=kvblock:facebook/opt-125m:0:-796771723346456411:0, kvblock:facebook/opt-125m:0:-796771723346456411:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=9, hash=-728934411703425..., keys=kvblock:facebook/opt-125m:0:-7289344117034257096:0, kvblock:facebook/opt-125m:0:-7289344117034257096:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=10, hash=2642929893733738..., keys=kvblock:facebook/opt-125m:0:2642929893733738997:0, kvblock:facebook/opt-125m:0:2642929893733738997:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=11, hash=-143315839541634..., keys=kvblock:facebook/opt-125m:0:-1433158395416345738:0, kvblock:facebook/opt-125m:0:-1433158395416345738:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=12, hash=-969535662868328..., keys=kvblock:facebook/opt-125m:0:-969535662868328822:0, kvblock:facebook/opt-125m:0:-969535662868328822:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=13, hash=5306566418561000..., keys=kvblock:facebook/opt-125m:0:5306566418561000162:0, kvblock:facebook/opt-125m:0:5306566418561000162:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=14, hash=-320276162304712..., keys=kvblock:facebook/opt-125m:0:-3202761623047128999:0, kvblock:facebook/opt-125m:0:-3202761623047128999:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=15, hash=-321029243498631..., keys=kvblock:facebook/opt-125m:0:-3210292434986317386:0, kvblock:facebook/opt-125m:0:-3210292434986317386:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=16, hash=-861678196613307..., keys=kvblock:facebook/opt-125m:0:-8616781966133073479:0, kvblock:facebook/opt-125m:0:-8616781966133073479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=17, hash=8306231627662294..., keys=kvblock:facebook/opt-125m:0:8306231627662294931:0, kvblock:facebook/opt-125m:0:8306231627662294931:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=21, hash=8760786261828683..., keys=kvblock:facebook/opt-125m:0:8760786261828683077:0, kvblock:facebook/opt-125m:0:8760786261828683077:1
+[1;36m(EngineCore_0 pid=825779)[0;0m 📊 [LOAD] Layer 0: Loaded 0/18 blocks, 18 missing
+[1;36m(EngineCore_0 pid=825779)[0;0m 
+[1;36m(EngineCore_0 pid=825779)[0;0m 🔄 [LOAD] Request 3 Layer 0: Loading 18 blocks
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=1, hash=-396566077824901..., keys=kvblock:facebook/opt-125m:0:-3965660778249019479:0, kvblock:facebook/opt-125m:0:-3965660778249019479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=2, hash=-623393211362326..., keys=kvblock:facebook/opt-125m:0:-6233932113623267409:0, kvblock:facebook/opt-125m:0:-6233932113623267409:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=3, hash=3832619819401557..., keys=kvblock:facebook/opt-125m:0:3832619819401557149:0, kvblock:facebook/opt-125m:0:3832619819401557149:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=4, hash=8950959619725232..., keys=kvblock:facebook/opt-125m:0:8950959619725232054:0, kvblock:facebook/opt-125m:0:8950959619725232054:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=5, hash=-647440334344014..., keys=kvblock:facebook/opt-125m:0:-6474403343440146391:0, kvblock:facebook/opt-125m:0:-6474403343440146391:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=6, hash=-149814643624115..., keys=kvblock:facebook/opt-125m:0:-1498146436241157827:0, kvblock:facebook/opt-125m:0:-1498146436241157827:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=7, hash=1834146165035616..., keys=kvblock:facebook/opt-125m:0:183414616503561639:0, kvblock:facebook/opt-125m:0:183414616503561639:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=8, hash=-796771723346456..., keys=kvblock:facebook/opt-125m:0:-796771723346456411:0, kvblock:facebook/opt-125m:0:-796771723346456411:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=9, hash=-728934411703425..., keys=kvblock:facebook/opt-125m:0:-7289344117034257096:0, kvblock:facebook/opt-125m:0:-7289344117034257096:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=10, hash=2642929893733738..., keys=kvblock:facebook/opt-125m:0:2642929893733738997:0, kvblock:facebook/opt-125m:0:2642929893733738997:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=11, hash=-143315839541634..., keys=kvblock:facebook/opt-125m:0:-1433158395416345738:0, kvblock:facebook/opt-125m:0:-1433158395416345738:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=12, hash=-969535662868328..., keys=kvblock:facebook/opt-125m:0:-969535662868328822:0, kvblock:facebook/opt-125m:0:-969535662868328822:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=13, hash=5306566418561000..., keys=kvblock:facebook/opt-125m:0:5306566418561000162:0, kvblock:facebook/opt-125m:0:5306566418561000162:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=14, hash=-320276162304712..., keys=kvblock:facebook/opt-125m:0:-3202761623047128999:0, kvblock:facebook/opt-125m:0:-3202761623047128999:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=15, hash=-321029243498631..., keys=kvblock:facebook/opt-125m:0:-3210292434986317386:0, kvblock:facebook/opt-125m:0:-3210292434986317386:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=16, hash=-861678196613307..., keys=kvblock:facebook/opt-125m:0:-8616781966133073479:0, kvblock:facebook/opt-125m:0:-8616781966133073479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=17, hash=8306231627662294..., keys=kvblock:facebook/opt-125m:0:8306231627662294931:0, kvblock:facebook/opt-125m:0:8306231627662294931:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   ❌ MISSING block_id=22, hash=8455924418016366..., keys=kvblock:facebook/opt-125m:0:8455924418016366570:0, kvblock:facebook/opt-125m:0:8455924418016366570:1
+[1;36m(EngineCore_0 pid=825779)[0;0m 📊 [LOAD] Layer 0: Loaded 0/18 blocks, 18 missing
+[1;36m(EngineCore_0 pid=825779)[0;0m 
+[1;36m(EngineCore_0 pid=825779)[0;0m 💾 [SAVE] Request 3 Layer 0: Saving 19 blocks
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=0, hash=-396566077824901..., keys=kvblock:facebook/opt-125m:0:-3965660778249019479:0, kvblock:facebook/opt-125m:0:-3965660778249019479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=1, hash=-623393211362326..., keys=kvblock:facebook/opt-125m:0:-6233932113623267409:0, kvblock:facebook/opt-125m:0:-6233932113623267409:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=2, hash=3832619819401557..., keys=kvblock:facebook/opt-125m:0:3832619819401557149:0, kvblock:facebook/opt-125m:0:3832619819401557149:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=3, hash=8950959619725232..., keys=kvblock:facebook/opt-125m:0:8950959619725232054:0, kvblock:facebook/opt-125m:0:8950959619725232054:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=4, hash=-647440334344014..., keys=kvblock:facebook/opt-125m:0:-6474403343440146391:0, kvblock:facebook/opt-125m:0:-6474403343440146391:1
+Processed prompts:  50%|█████     | 2/4 [00:00<00:00,  2.30it/s, est. speed input: 643.25 toks/s, output: 67.00 toks/s]Processed prompts:  75%|███████▌  | 3/4 [00:01<00:00,  2.43it/s, est. speed input: 674.98 toks/s, output: 71.87 toks/s]Processed prompts: 100%|██████████| 4/4 [00:01<00:00,  2.43it/s, est. speed input: 899.62 toks/s, output: 96.83 toks/s]Processed prompts: 100%|██████████| 4/4 [00:01<00:00,  3.12it/s, est. speed input: 899.62 toks/s, output: 96.83 toks/s]
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=5, hash=-149814643624115..., keys=kvblock:facebook/opt-125m:0:-1498146436241157827:0, kvblock:facebook/opt-125m:0:-1498146436241157827:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=6, hash=1834146165035616..., keys=kvblock:facebook/opt-125m:0:183414616503561639:0, kvblock:facebook/opt-125m:0:183414616503561639:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=7, hash=-796771723346456..., keys=kvblock:facebook/opt-125m:0:-796771723346456411:0, kvblock:facebook/opt-125m:0:-796771723346456411:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=8, hash=-728934411703425..., keys=kvblock:facebook/opt-125m:0:-7289344117034257096:0, kvblock:facebook/opt-125m:0:-7289344117034257096:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=9, hash=2642929893733738..., keys=kvblock:facebook/opt-125m:0:2642929893733738997:0, kvblock:facebook/opt-125m:0:2642929893733738997:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=10, hash=-143315839541634..., keys=kvblock:facebook/opt-125m:0:-1433158395416345738:0, kvblock:facebook/opt-125m:0:-1433158395416345738:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=11, hash=-969535662868328..., keys=kvblock:facebook/opt-125m:0:-969535662868328822:0, kvblock:facebook/opt-125m:0:-969535662868328822:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=12, hash=5306566418561000..., keys=kvblock:facebook/opt-125m:0:5306566418561000162:0, kvblock:facebook/opt-125m:0:5306566418561000162:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=13, hash=-320276162304712..., keys=kvblock:facebook/opt-125m:0:-3202761623047128999:0, kvblock:facebook/opt-125m:0:-3202761623047128999:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=14, hash=-321029243498631..., keys=kvblock:facebook/opt-125m:0:-3210292434986317386:0, kvblock:facebook/opt-125m:0:-3210292434986317386:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=15, hash=-861678196613307..., keys=kvblock:facebook/opt-125m:0:-8616781966133073479:0, kvblock:facebook/opt-125m:0:-8616781966133073479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=16, hash=8306231627662294..., keys=kvblock:facebook/opt-125m:0:8306231627662294931:0, kvblock:facebook/opt-125m:0:8306231627662294931:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=17, hash=8455924418016366..., keys=kvblock:facebook/opt-125m:0:8455924418016366570:0, kvblock:facebook/opt-125m:0:8455924418016366570:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=18, hash=5259193970248814..., keys=kvblock:facebook/opt-125m:0:5259193970248814164:0, kvblock:facebook/opt-125m:0:5259193970248814164:1
+[1;36m(EngineCore_0 pid=825779)[0;0m 📊 [SAVE] Layer 0: Saved 19/19 blocks, 0 errors
+[1;36m(EngineCore_0 pid=825779)[0;0m 
+[1;36m(EngineCore_0 pid=825779)[0;0m 💾 [SAVE] Request 0 Layer 0: Saving 20 blocks
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=0, hash=-396566077824901..., keys=kvblock:facebook/opt-125m:0:-3965660778249019479:0, kvblock:facebook/opt-125m:0:-3965660778249019479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=1, hash=-623393211362326..., keys=kvblock:facebook/opt-125m:0:-6233932113623267409:0, kvblock:facebook/opt-125m:0:-6233932113623267409:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=2, hash=3832619819401557..., keys=kvblock:facebook/opt-125m:0:3832619819401557149:0, kvblock:facebook/opt-125m:0:3832619819401557149:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=3, hash=8950959619725232..., keys=kvblock:facebook/opt-125m:0:8950959619725232054:0, kvblock:facebook/opt-125m:0:8950959619725232054:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=4, hash=-647440334344014..., keys=kvblock:facebook/opt-125m:0:-6474403343440146391:0, kvblock:facebook/opt-125m:0:-6474403343440146391:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=5, hash=-149814643624115..., keys=kvblock:facebook/opt-125m:0:-1498146436241157827:0, kvblock:facebook/opt-125m:0:-1498146436241157827:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=6, hash=1834146165035616..., keys=kvblock:facebook/opt-125m:0:183414616503561639:0, kvblock:facebook/opt-125m:0:183414616503561639:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=7, hash=-796771723346456..., keys=kvblock:facebook/opt-125m:0:-796771723346456411:0, kvblock:facebook/opt-125m:0:-796771723346456411:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=8, hash=-728934411703425..., keys=kvblock:facebook/opt-125m:0:-7289344117034257096:0, kvblock:facebook/opt-125m:0:-7289344117034257096:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=9, hash=2642929893733738..., keys=kvblock:facebook/opt-125m:0:2642929893733738997:0, kvblock:facebook/opt-125m:0:2642929893733738997:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=10, hash=-143315839541634..., keys=kvblock:facebook/opt-125m:0:-1433158395416345738:0, kvblock:facebook/opt-125m:0:-1433158395416345738:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=11, hash=-969535662868328..., keys=kvblock:facebook/opt-125m:0:-969535662868328822:0, kvblock:facebook/opt-125m:0:-969535662868328822:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=12, hash=5306566418561000..., keys=kvblock:facebook/opt-125m:0:5306566418561000162:0, kvblock:facebook/opt-125m:0:5306566418561000162:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=13, hash=-320276162304712..., keys=kvblock:facebook/opt-125m:0:-3202761623047128999:0, kvblock:facebook/opt-125m:0:-3202761623047128999:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=14, hash=-321029243498631..., keys=kvblock:facebook/opt-125m:0:-3210292434986317386:0, kvblock:facebook/opt-125m:0:-3210292434986317386:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=15, hash=-861678196613307..., keys=kvblock:facebook/opt-125m:0:-8616781966133073479:0, kvblock:facebook/opt-125m:0:-8616781966133073479:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=16, hash=8306231627662294..., keys=kvblock:facebook/opt-125m:0:8306231627662294931:0, kvblock:facebook/opt-125m:0:8306231627662294931:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=17, hash=-843568115929644..., keys=kvblock:facebook/opt-125m:0:-8435681159296446662:0, kvblock:facebook/opt-125m:0:-8435681159296446662:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=18, hash=-862933380379137..., keys=kvblock:facebook/opt-125m:0:-8629333803791371991:0, kvblock:facebook/opt-125m:0:-8629333803791371991:1
+[1;36m(EngineCore_0 pid=825779)[0;0m   💾 SAVED physical_block_id=19, hash=6590706651042659..., keys=kvblock:facebook/opt-125m:0:6590706651042659865:0, kvblock:facebook/opt-125m:0:6590706651042659865:1
+[1;36m(EngineCore_0 pid=825779)[0;0m 📊 [SAVE] Layer 0: Saved 20/20 blocks, 0 errors
+[STORE] First run time: 1.299s
+[STORE] Example output: The objective is to study natural language processing in an artificial intelligence context. The goal is to evaluate the
+[STORE] kvblock keys count: 528
+[STORE] sample keys:
+  - kvblock:facebook/opt-125m:0:-1433158395416345738:0
+  - kvblock:facebook/opt-125m:0:-1433158395416345738:1
+  - kvblock:facebook/opt-125m:0:-1498146436241157827:0
+  - kvblock:facebook/opt-125m:0:-1498146436241157827:1
+  - kvblock:facebook/opt-125m:0:-3202761623047128999:0
+INFO 09-05 13:45:44 [utils.py:326] non-default args: {'model': 'facebook/opt-125m', 'trust_remote_code': True, 'max_model_len': 512, 'enable_prefix_caching': True, 'gpu_memory_utilization': 0.85, 'disable_log_stats': True, 'kv_transfer_config': KVTransferConfig(kv_connector='PikaConnector', engine_id='kvtest-opt125m-nhd-fp16', kv_buffer_device='cuda', kv_buffer_size=1000000000.0, kv_role='kv_both', kv_rank=None, kv_parallel_size=1, kv_ip='127.0.0.1', kv_port=14579, kv_connector_extra_config={'host': 'localhost', 'port': 9221, 'db': 0}, kv_connector_module_path=None)}
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 09-05 13:45:46 [__init__.py:711] Resolved architecture: OPTForCausalLM
+INFO 09-05 13:45:46 [__init__.py:1750] Using max model len 512
+INFO 09-05 13:45:47 [scheduler.py:222] Chunked prefill is enabled with max_num_batched_tokens=8192.
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:48 [core.py:636] Waiting for init message from front-end.
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:48 [core.py:74] Initializing a V1 LLM engine (v0.10.1) with config: model='facebook/opt-125m', speculative_config=None, tokenizer='facebook/opt-125m', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config={}, tokenizer_revision=None, trust_remote_code=True, dtype=torch.float16, max_seq_len=512, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=0, served_model_name=facebook/opt-125m, enable_prefix_caching=True, chunked_prefill_enabled=True, use_async_output_proc=True, pooler_config=None, compilation_config={"level":3,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output","vllm.mamba_mixer2"],"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":1,"use_cudagraph":true,"cudagraph_num_of_warmups":1,"cudagraph_capture_sizes":[512,504,496,488,480,472,464,456,448,440,432,424,416,408,400,392,384,376,368,360,352,344,336,328,320,312,304,296,288,280,272,264,256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":512,"local_cache_dir":null}
+[rank0]:[W905 13:45:51.060571360 ProcessGroupGloo.cpp:727] Warning: Unable to resolve hostname to a (local) address. Using the loopback address as fallback. Manually set the network interface to bind to with GLOO_SOCKET_IFNAME. (function operator())
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:51 [parallel_state.py:1134] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:51 [factory.py:50] Creating v1 connector with name: PikaConnector and engine_id: kvtest-opt125m-nhd-fp16
+[1;36m(EngineCore_0 pid=826011)[0;0m WARNING 09-05 13:45:51 [base.py:80] Initializing KVConnectorBase_V1. This API is experimental and subject to change in the future as we iterate the design.
+[1;36m(EngineCore_0 pid=826011)[0;0m WARNING 09-05 13:45:51 [topk_topp_sampler.py:61] FlashInfer is not available. Falling back to the PyTorch-native implementation of top-p & top-k sampling. For the best performance, please install FlashInfer.
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:51 [gpu_model_runner.py:1953] Starting to load model facebook/opt-125m...
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:51 [gpu_model_runner.py:1985] Loading model from scratch...
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:51 [cuda.py:328] Using Flash Attention backend on V1 engine.
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:52 [weight_utils.py:296] Using model weights format ['*.bin']
+[1;36m(EngineCore_0 pid=826011)[0;0m Loading pt checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+[1;36m(EngineCore_0 pid=826011)[0;0m Loading pt checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.87it/s]
+[1;36m(EngineCore_0 pid=826011)[0;0m Loading pt checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.87it/s]
+[1;36m(EngineCore_0 pid=826011)[0;0m 
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:53 [default_loader.py:262] Loading weights took 0.54 seconds
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:53 [gpu_model_runner.py:2007] Model loading took 0.2389 GiB and 1.670462 seconds
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:56 [backends.py:548] Using cache directory: /home/xjh/.cache/vllm/torch_compile_cache/7dfb9d834a/rank_0_0/backbone for vLLM's torch.compile
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:56 [backends.py:559] Dynamo bytecode transform time: 2.73 s
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:57 [backends.py:161] Directly load the compiled graph(s) for dynamic shape from the cache, took 1.213 s
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:58 [monitor.py:34] torch.compile takes 2.73 s in total
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:59 [gpu_worker.py:276] Available KV cache memory: 19.29 GiB
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:59 [kv_cache_utils.py:849] GPU KV cache size: 561,872 tokens
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:59 [kv_cache_utils.py:853] Maximum concurrency for 512 tokens per request: 1097.41x
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:45:59 [utils.py:114] Connectors do not specify a kv cache layout, defaulting to NHD.
+[1;36m(EngineCore_0 pid=826011)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/67 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  10%|█         | 7/67 [00:00<00:00, 69.79it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  22%|██▏       | 15/67 [00:00<00:00, 75.51it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  36%|███▌      | 24/67 [00:00<00:00, 79.57it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  48%|████▊     | 32/67 [00:00<00:00, 79.22it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  61%|██████    | 41/67 [00:00<00:00, 81.11it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▍  | 50/67 [00:00<00:00, 80.76it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  88%|████████▊ | 59/67 [00:00<00:00, 80.02it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 67/67 [00:00<00:00, 77.52it/s]
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:46:00 [gpu_model_runner.py:2708] Graph capturing finished in 1 secs, took 0.19 GiB
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:46:00 [core.py:214] init engine (profile, create kv cache, warmup model) took 6.98 seconds
+[1;36m(EngineCore_0 pid=826011)[0;0m INFO 09-05 13:46:01 [factory.py:50] Creating v1 connector with name: PikaConnector and engine_id: kvtest-opt125m-nhd-fp16
+[1;36m(EngineCore_0 pid=826011)[0;0m WARNING 09-05 13:46:01 [base.py:80] Initializing KVConnectorBase_V1. This API is experimental and subject to change in the future as we iterate the design.
+INFO 09-05 13:46:01 [llm.py:298] Supported_tasks: ['generate']
+Adding requests:   0%|          | 0/4 [00:00<?, ?it/s]Adding requests: 100%|██████████| 4/4 [00:00<00:00, 316.14it/s]
+Processed prompts:   0%|          | 0/4 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][1;36m(EngineCore_0 pid=826011)[0;0m /home/xjh/PikiwiDB_kvcache/vllm/vllm/distributed/kv_transfer/kv_connector/v1/pika_connector.py:198: UserWarning: The given buffer is not writable, and PyTorch does not support non-writable tensors. This means you can write to the underlying (supposedly non-writable) buffer using the tensor. You may want to copy the buffer to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_new.cpp:1577.)
+[1;36m(EngineCore_0 pid=826011)[0;0m   k_tensor = torch.frombuffer(k_data, dtype=kv_cache.dtype).reshape(block_shape)
+[1;36m(EngineCore_0 pid=826011)[0;0m 
+[1;36m(EngineCore_0 pid=826011)[0;0m 🔄 [LOAD] Request 0 Layer 0: Loading 18 blocks
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=1, hash=-396566077824901..., keys=kvblock:facebook/opt-125m:0:-3965660778249019479:0, kvblock:facebook/opt-125m:0:-3965660778249019479:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=2, hash=-623393211362326..., keys=kvblock:facebook/opt-125m:0:-6233932113623267409:0, kvblock:facebook/opt-125m:0:-6233932113623267409:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=3, hash=3832619819401557..., keys=kvblock:facebook/opt-125m:0:3832619819401557149:0, kvblock:facebook/opt-125m:0:3832619819401557149:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=4, hash=8950959619725232..., keys=kvblock:facebook/opt-125m:0:8950959619725232054:0, kvblock:facebook/opt-125m:0:8950959619725232054:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=5, hash=-647440334344014..., keys=kvblock:facebook/opt-125m:0:-6474403343440146391:0, kvblock:facebook/opt-125m:0:-6474403343440146391:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=6, hash=-149814643624115..., keys=kvblock:facebook/opt-125m:0:-1498146436241157827:0, kvblock:facebook/opt-125m:0:-1498146436241157827:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=7, hash=1834146165035616..., keys=kvblock:facebook/opt-125m:0:183414616503561639:0, kvblock:facebook/opt-125m:0:183414616503561639:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=8, hash=-796771723346456..., keys=kvblock:facebook/opt-125m:0:-796771723346456411:0, kvblock:facebook/opt-125m:0:-796771723346456411:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=9, hash=-728934411703425..., keys=kvblock:facebook/opt-125m:0:-7289344117034257096:0, kvblock:facebook/opt-125m:0:-7289344117034257096:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=10, hash=2642929893733738..., keys=kvblock:facebook/opt-125m:0:2642929893733738997:0, kvblock:facebook/opt-125m:0:2642929893733738997:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=11, hash=-143315839541634..., keys=kvblock:facebook/opt-125m:0:-1433158395416345738:0, kvblock:facebook/opt-125m:0:-1433158395416345738:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=12, hash=-969535662868328..., keys=kvblock:facebook/opt-125m:0:-969535662868328822:0, kvblock:facebook/opt-125m:0:-969535662868328822:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=13, hash=5306566418561000..., keys=kvblock:facebook/opt-125m:0:5306566418561000162:0, kvblock:facebook/opt-125m:0:5306566418561000162:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=14, hash=-320276162304712..., keys=kvblock:facebook/opt-125m:0:-3202761623047128999:0, kvblock:facebook/opt-125m:0:-3202761623047128999:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=15, hash=-321029243498631..., keys=kvblock:facebook/opt-125m:0:-3210292434986317386:0, kvblock:facebook/opt-125m:0:-3210292434986317386:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=16, hash=-861678196613307..., keys=kvblock:facebook/opt-125m:0:-8616781966133073479:0, kvblock:facebook/opt-125m:0:-8616781966133073479:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=17, hash=8306231627662294..., keys=kvblock:facebook/opt-125m:0:8306231627662294931:0, kvblock:facebook/opt-125m:0:8306231627662294931:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=18, hash=-843568115929644..., keys=kvblock:facebook/opt-125m:0:-8435681159296446662:0, kvblock:facebook/opt-125m:0:-8435681159296446662:1
+[1;36m(EngineCore_0 pid=826011)[0;0m 📊 [LOAD] Layer 0: Loaded 18/18 blocks, 0 missing
+[1;36m(EngineCore_0 pid=826011)[0;0m 
+[1;36m(EngineCore_0 pid=826011)[0;0m 🔄 [LOAD] Request 1 Layer 0: Loading 17 blocks
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=19, hash=-396566077824901..., keys=kvblock:facebook/opt-125m:0:-3965660778249019479:0, kvblock:facebook/opt-125m:0:-3965660778249019479:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=20, hash=-623393211362326..., keys=kvblock:facebook/opt-125m:0:-6233932113623267409:0, kvblock:facebook/opt-125m:0:-6233932113623267409:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=21, hash=3832619819401557..., keys=kvblock:facebook/opt-125m:0:3832619819401557149:0, kvblock:facebook/opt-125m:0:3832619819401557149:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=22, hash=8950959619725232..., keys=kvblock:facebook/opt-125m:0:8950959619725232054:0, kvblock:facebook/opt-125m:0:8950959619725232054:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=23, hash=-647440334344014..., keys=kvblock:facebook/opt-125m:0:-6474403343440146391:0, kvblock:facebook/opt-125m:0:-6474403343440146391:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=24, hash=-149814643624115..., keys=kvblock:facebook/opt-125m:0:-1498146436241157827:0, kvblock:facebook/opt-125m:0:-1498146436241157827:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=25, hash=1834146165035616..., keys=kvblock:facebook/opt-125m:0:183414616503561639:0, kvblock:facebook/opt-125m:0:183414616503561639:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=26, hash=-796771723346456..., keys=kvblock:facebook/opt-125m:0:-796771723346456411:0, kvblock:facebook/opt-125m:0:-796771723346456411:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=27, hash=-728934411703425..., keys=kvblock:facebook/opt-125m:0:-7289344117034257096:0, kvblock:facebook/opt-125m:0:-7289344117034257096:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=28, hash=2642929893733738..., keys=kvblock:facebook/opt-125m:0:2642929893733738997:0, kvblock:facebook/opt-125m:0:2642929893733738997:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=29, hash=-143315839541634..., keys=kvblock:facebook/opt-125m:0:-1433158395416345738:0, kvblock:facebook/opt-125m:0:-1433158395416345738:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=30, hash=-969535662868328..., keys=kvblock:facebook/opt-125m:0:-969535662868328822:0, kvblock:facebook/opt-125m:0:-969535662868328822:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=31, hash=5306566418561000..., keys=kvblock:facebook/opt-125m:0:5306566418561000162:0, kvblock:facebook/opt-125m:0:5306566418561000162:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=32, hash=-320276162304712..., keys=kvblock:facebook/opt-125m:0:-3202761623047128999:0, kvblock:facebook/opt-125m:0:-3202761623047128999:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=33, hash=-321029243498631..., keys=kvblock:facebook/opt-125m:0:-3210292434986317386:0, kvblock:facebook/opt-125m:0:-3210292434986317386:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=34, hash=-861678196613307..., keys=kvblock:facebook/opt-125m:0:-8616781966133073479:0, kvblock:facebook/opt-125m:0:-8616781966133073479:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=35, hash=8306231627662294..., keys=kvblock:facebook/opt-125m:0:8306231627662294931:0, kvblock:facebook/opt-125m:0:8306231627662294931:1
+[1;36m(EngineCore_0 pid=826011)[0;0m 📊 [LOAD] Layer 0: Loaded 17/17 blocks, 0 missing
+[1;36m(EngineCore_0 pid=826011)[0;0m 
+[1;36m(EngineCore_0 pid=826011)[0;0m 🔄 [LOAD] Request 2 Layer 0: Loading 17 blocks
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=36, hash=-396566077824901..., keys=kvblock:facebook/opt-125m:0:-3965660778249019479:0, kvblock:facebook/opt-125m:0:-3965660778249019479:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=37, hash=-623393211362326..., keys=kvblock:facebook/opt-125m:0:-6233932113623267409:0, kvblock:facebook/opt-125m:0:-6233932113623267409:1
+[1;36m(EngineCore_0 pid=826011)[0;0m   ✅ LOADED block_id=38, hash=3832619819401557..., keys=kvblock:facebook/opt-125m:0:3832619819401557149:0, kvblock:facebook/opt-125m:0:3832619819401557149:1
+[1;36m(EngineCore_0 pid=826011)[0;0m 
